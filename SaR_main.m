@@ -79,7 +79,7 @@ for i=1:length(index)
 
 end
 
-
+save('reconstructed.mat','recon')
 
 function vec = weightVec(Sneigh,k)
 % Input
