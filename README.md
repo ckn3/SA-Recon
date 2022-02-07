@@ -12,4 +12,4 @@ Notes:
 - Contact: kangnicui2@gmail.com
 
 ## References
-**Li, R., Cui, K., Chan, R. H., & Plemmons, R. J.** (2022). Classification of Hyperspectral Images Using SVM with Shape-adaptive Reconstruction and Smoothed Total Variation. in *Proc IEEE Int Geosci Remote Sens Symp*, IEEE, 2022.** 
+**Li, R., Cui, K., Chan, R. H., & Plemmons, R. J.** (2022). Classification of Hyperspectral Images Using SVM with Shape-adaptive Reconstruction and Smoothed Total Variation. in *Proc IEEE Int Geosci Remote Sens Symp*, IEEE, 2022.
