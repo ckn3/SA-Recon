@@ -1,7 +1,7 @@
 # shape-adaptive-reconstruction
 
 
-This code is an implementation of "Classification of Hyperspectral Images Using SVM with Shape-adaptive Reconstruction and Smoothed Total Variation" [1]. The code can be used as a semisupervised per-pixel segmentation with smoothness, which is capable for multispectral and hyperspectral datasets, with applications to land cover classification. 
+This code is an implementation of "Classification of Hyperspectral Images Using SVM with Shape-adaptive Reconstruction and Smoothed Total Variation" [Link, TBA](). The code can be used as a semisupervised per-pixel segmentation with smoothness, which is capable for multispectral and hyperspectral datasets, with applications to land cover classification. 
 
 The code uses several Matlab Toolboxes, see [LASIP](https://webpages.tuni.fi/lasip/2D/) and [SA-DCT](https://webpages.tuni.fi/foi/SA-DCT/).
 
