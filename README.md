@@ -8,7 +8,7 @@ The code uses several Matlab Toolboxes, see [LASIP](https://webpages.tuni.fi/las
 Notes:
 - The code only contains the reconstruction part that utilize the spatial information. You could apply any other methods on reconstructed datasets. Contact me via email if you need more info about the code.
 - To run a demo, please run the SaR_main.m. Make sure you download the benchmark datasets before testing.
-- To apply the code on your dataset, you could simply change the input dataset.
+- To apply the code on your dataset, you could simply change the input datasets.
 - Contact: kangnicui2@gmail.com
 
 ## References
