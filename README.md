@@ -3,7 +3,7 @@
 
 This code is an implementation of Shape-adaptive Reconstruction (SaR) proposed in "Classification of Hyperspectral Images Using SVM with Shape-adaptive Reconstruction and Smoothed Total Variation", [Link](https://arxiv.org/abs/2203.15619). 
 
-The SaR code can be used as a denoising method for hyperspectral datasets. In [this paper](https://arxiv.org/abs/2203.15619), SaR is firstly used as a preprocessing step before training a semi-supervised classifier. SaR has been applied in an unsupervised diffusion-based algorithm called [DSIRC](https://arxiv.org/abs/2204.13497) as a smoothing stage as well, demonstrating the efficacy of SaR.
+The SaR code can be used as a denoising method for hyperspectral datasets. In [this paper](https://arxiv.org/abs/2203.15619), SaR is firstly used as a preprocessing step before training a semi-supervised classifier. SaR has been applied in an unsupervised diffusion-based algorithm called [DSIRC](https://arxiv.org/abs/2204.13497) as a smoothing stage as well.
 
 SaR uses several Matlab Toolboxes, see [LASIP](https://webpages.tuni.fi/lasip/2D/) and [SA-DCT](https://webpages.tuni.fi/foi/SA-DCT/).
 
