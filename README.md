@@ -12,7 +12,7 @@ Notes:
 - To apply the code on your dataset, you could simply change the input datasets.
 - Contact: kangnicui2@gmail.com
 
-If you find it useful or use it in any publications, please cite the following papers:
+*If you find it useful or use it in any publications, please cite the following papers:*
 ## References
 
 **Li, R., Cui, K., Chan, R. H., & Plemmons, R. J.**. "Classification of Hyperspectral Images Using SVM with Shape-adaptive Reconstruction and Smoothed Total Variation". in *Proc IEEE Int Geosci Remote Sens Symp*, IEEE, 2022. [Link](https://arxiv.org/abs/2203.15619).
