@@ -15,8 +15,8 @@ numReplicates = 10;
 %% Grid searches
 datasets = {'IndianPinesCorrected','IndianPinesCorrectedSar'};
 
-% You need to reconstruct 'IndianPinesCorrected' data and rename it as
-% 'IndianPinesCorrectedSar.mat' before setting dataIdx =  2.
+% You need to reconstruct 'IndianPinesCorrected' data using "SaR_main.m" and 
+% rename it as 'IndianPinesCorrectedSar.mat' before setting dataIdx =  2.
 
 for dataIdx =  2
     prctiles = prcts{dataIdx};
