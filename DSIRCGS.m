@@ -121,7 +121,7 @@ for dataIdx =  2
         [maxOA, k] = max(reshape(nanmean(OAs,3),n1*n2,1));
         [l,j] = ind2sub(size(mean(OAs,3)), k);
         stdOA = nanstd(squeeze(OAs(l,j,:)));
-        save(strcat(datasets{dataIdx}, 'DSIRSbefore'),  'OAs', 'kappas', 'Cs', 'NNs', 'prctiles', 'numReplicates', 'maxOA', 'stdOA')
+        save(strcat(datasets{dataIdx}, 'DSIRC'),  'OAs', 'kappas', 'Cs', 'NNs', 'prctiles', 'numReplicates', 'maxOA', 'stdOA')
         
     end
 
