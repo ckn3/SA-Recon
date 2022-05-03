@@ -1,5 +1,5 @@
-%% DSIRS
-% Extracts performances for DSIRS
+%% DSIRC
+% Extracts performances for DSIRC
 
 %% Grid Search Parameters
    
