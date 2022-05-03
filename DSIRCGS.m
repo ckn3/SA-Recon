@@ -1,4 +1,4 @@
-%% DSIRC
+%% DSIRCGS
 % Extracts performances for DSIRC
 
 %% Grid Search Parameters
@@ -17,6 +17,13 @@ datasets = {'IndianPinesCorrected','IndianPinesCorrectedSar'};
 
 % You need to reconstruct 'IndianPinesCorrected' data using "SaR_main.m" and 
 % rename it as 'IndianPinesCorrectedSar.mat' before setting dataIdx =  2.
+
+% The datasets should be formatted as:
+% M,N,D : The number of rows, columns, and spectral bands in HSI.
+% X     : (M*N)*D matrix.
+% HSI   : M*N*D array.
+% GT    : Ground Truth labels.
+
 
 for dataIdx =  2
     prctiles = prcts{dataIdx};
