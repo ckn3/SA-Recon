@@ -17,6 +17,11 @@ datasets = {'IndianPinesCorrected','PaviaU','IndianPinesCorrectedSar','PaviaUSar
 prompt = 'Which dataset? \n 1) IndianPines \n 2) PaviaU \n 3) Reconstructed IndianPines \n 4) Reconstructed PaviaU \n ';
 DataSelected = input(prompt);
 load(strcat(datasets{DataSelected},'.mat'))
+if mod(DataSelected,2)==1
+    a1=0.2;a2=4;
+else 
+    a1=0.2;a2=1;
+end
 recon = X;
 label_original = GT;
 if min(label_original,[],'all') == 1
@@ -28,8 +33,6 @@ clear X GT HSI prompt
 
 rng('default')
 rng(1) %random seed
-a1=0.2;
-a2=4;
 trial_num = 10; %number of trials, in the paper we used 10
 num_train_per_class = 5;
 
