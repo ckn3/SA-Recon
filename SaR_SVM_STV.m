@@ -17,6 +17,8 @@ datasets = {'IndianPinesCorrected','PaviaU','IndianPinesCorrectedSar','PaviaUSar
 prompt = 'Which dataset? \n 1) IndianPines \n 2) PaviaU \n 3) Reconstructed IndianPines \n 4) Reconstructed PaviaU \n ';
 DataSelected = input(prompt);
 load(strcat(datasets{DataSelected},'.mat'))
+
+% Set the denoising parameters in STV.
 if mod(DataSelected,2)==1
     a1=0.2;a2=4;
 else 
