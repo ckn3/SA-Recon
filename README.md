@@ -1,9 +1,9 @@
 # shape-adaptive-reconstruction
 
 
-This code is an implementation of Shape-adaptive Reconstruction (SaR) proposed in "Classification of Hyperspectral Images Using SVM with Shape-adaptive Reconstruction and Smoothed Total Variation", see [Link](https://arxiv.org/abs/2203.15619). 
+This code is an implementation of **Shape-adaptive Reconstruction (SaR)** proposed in "Classification of Hyperspectral Images Using SVM with Shape-adaptive Reconstruction and Smoothed Total Variation", see [Link](https://arxiv.org/abs/2203.15619), and applied in "Unsupervised Spatial-spectral Hyperspectral Image Reconstruction and Clustering with Diffusion Geometry", see [Link](https://arxiv.org/abs/2204.13497). 
 
-The SaR code can be used as a denoising method for hyperspectral datasets. In [this paper](https://arxiv.org/abs/2203.15619), SaR is firstly used as a preprocessing step before training a semi-supervised classifier. SaR has been applied in an unsupervised diffusion-based algorithm called [DSIRC](https://arxiv.org/abs/2204.13497) as a smoothing stage as well.
+The SaR code can be used as a denoising method for remote sensing datasets. In [this paper](https://arxiv.org/abs/2203.15619), SaR is firstly used as a preprocessing step before training a semi-supervised classifier. SaR has been applied in an unsupervised diffusion-based algorithm called [DSIRC](https://arxiv.org/abs/2204.13497) as a smoothing stage as well.
 
 SaR uses several Matlab Toolboxes, such as [LASIP](https://webpages.tuni.fi/lasip/2D/) and [SA-DCT](https://webpages.tuni.fi/foi/SA-DCT/). SVM-STV uses the [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/) toolbox. DSIRC uses the [D-VIC](https://github.com/sampolk/D-VIC) toolbox.
 
