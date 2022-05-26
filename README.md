@@ -5,7 +5,7 @@ This code is an implementation of **Shape-adaptive Reconstruction (SaR)** propos
 
 The SaR code can be used as a denoising method for remote sensing datasets. In [this paper](https://arxiv.org/abs/2203.15619), SaR is firstly used as a preprocessing step before training a semi-supervised classifier. SaR has been applied in an unsupervised diffusion-based algorithm called [DSIRC](https://arxiv.org/abs/2204.13497) as a smoothing stage as well.
 
-SaR uses several Matlab Toolboxes, such as [LASIP](https://webpages.tuni.fi/lasip/2D/) and [SA-DCT](https://webpages.tuni.fi/foi/SA-DCT/). SVM-STV uses the [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/) toolbox. DSIRC uses the [D-VIC](https://github.com/sampolk/D-VIC) toolbox.
+SaR uses several Matlab Toolboxes, such as [LASIP](https://webpages.tuni.fi/lasip/2D/) and [SA-DCT](https://webpages.tuni.fi/foi/SA-DCT/). SVM-STV uses the [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/) toolbox to implement SVMs. DSIRC uses the [D-VIC](https://github.com/sampolk/D-VIC) toolbox for unsupervised diffusion learning.
 
 Notes:
 - The code only contains the reconstruction part that utilize the spatial information. You could apply any other methods on reconstructed datasets. Contact me via email if you need more info about the code.
