@@ -20,4 +20,4 @@ Notes:
 
 **Li, R., Cui, K., Chan, R. H., & Plemmons, R. J.**. "Classification of Hyperspectral Images Using SVM with Shape-adaptive Reconstruction and Smoothed Total Variation". in *Proc IEEE Int Geosci Remote Sens Symp*, IEEE, 2022. [Link](https://arxiv.org/abs/2203.15619).
 
-**Cui, K., Li, R., Polk, S.L., Murphy, J.M., & Plemmons, R. J., Chan, R. H.**. "Unsupervised Spatial-spectral Hyperspectral Image Reconstruction and Clustering with Diffusion Geometry". in *arXiv*, 2022. [Link](https://arxiv.org/abs/2204.13497).
+**Cui, K., Li, R., Polk, S.L., Murphy, J.M., & Plemmons, R. J., Chan, R. H.**. "Unsupervised Spatial-spectral Hyperspectral Image Reconstruction and Clustering with Diffusion Geometry". in *Proc IEEE Workshop Hyperspectral Image Signal Process Evol Remote Sens*, IEEE, 2022. [Link](https://arxiv.org/abs/2204.13497).
