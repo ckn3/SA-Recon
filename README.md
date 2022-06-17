@@ -5,13 +5,13 @@ This code is an implementation of **Shape-adaptive Reconstruction (SaR)** propos
 
 The SaR code can be used as a denoising method for remote sensing datasets. In [this paper](https://arxiv.org/abs/2203.15619), SaR is firstly used as a preprocessing step before training a semi-supervised classifier. SaR has been applied in an unsupervised diffusion-based algorithm called [DSIRC](https://arxiv.org/abs/2204.13497) as a smoothing stage as well.
 
-SaR uses several Matlab Toolboxes, such as [LASIP](https://webpages.tuni.fi/lasip/2D/) and [SA-DCT](https://webpages.tuni.fi/foi/SA-DCT/). SVM-STV uses the [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/) toolbox to implement SVMs. DSIRC uses the [D-VIC](https://github.com/sampolk/D-VIC) toolbox for unsupervised diffusion learning.
+SaR uses several Matlab Toolboxes, such as [LASIP](https://webpages.tuni.fi/lasip/2D/) and [SA-DCT](https://webpages.tuni.fi/foi/SA-DCT/). SVM-STV uses the [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/) toolbox to implement SVMs. 
 
 Notes:
 - The code contains the Shape-adaptive Reconstruction part that use the spatial information to reduce the noise.
 - To run a demo of SaR, please run SaR_main.m. Make sure you download the benchmark datasets before trying.
 - To run a demo of SaR-SVM-STV (semi-supervised), please run SaR_SVM_STV.m. 
-- To run a demo of DSIRC (unsupervised), please run DSIRCGS.m. 
+- To run a demo of DSIRC (unsupervised), please run DSIRCGS.m. DSIRC uses the [D-VIC](https://github.com/sampolk/D-VIC) toolbox for unsupervised diffusion learning.
 - To apply the code on your dataset, you could simply change the input datasets.
 - Contact: kangnicui2@gmail.com
 
