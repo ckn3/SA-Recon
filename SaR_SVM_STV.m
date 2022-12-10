@@ -2,7 +2,7 @@ clc
 close all
 clear all
 
-datasets = {'IndianPinesCorrected','PaviaU','IndianPinesCorrectedSar','PaviaUSar'};
+datasets = {'IndianPines_data','PaviaU_data'};
 
 % If you plan to use the SaR-SVM-STV algorithm:
 % You need to reconstruct 'IndianPinesCorrected'/'PaviaU' data using "SaR_main.m" 
@@ -14,32 +14,42 @@ datasets = {'IndianPinesCorrected','PaviaU','IndianPinesCorrectedSar','PaviaUSar
 % HSI   : M*N*D array.
 % GT    : Ground Truth labels.
 
-prompt = 'Which dataset? \n 1) IndianPines \n 2) PaviaU \n 3) Reconstructed IndianPines \n 4) Reconstructed PaviaU \n ';
+prompt = 'Which dataset? \n 1) IndianPines \n 2) PaviaU \n ';
 DataSelected = input(prompt);
 load(strcat(datasets{DataSelected},'.mat'))
 
-% Set the denoising parameters in STV.
+
+% Set the denoising parameters in STV and load GT.
 if mod(DataSelected,2)==1
     a1=0.2;a2=4;
+    load IndianPines_label.mat
+    label_original=IndianPines_label;
 else 
     a1=0.2;a2=1;
+    load PaviaU_label.mat
+    label_original=paviaU_gt;
 end
-recon = X;
-label_original = GT;
+
 if min(label_original,[],'all') == 1
     label_original = label_original - 1;
 end
 clear X GT HSI prompt
 
-%%
+
+SaR_main % reconstruct data
 
 rng('default')
 rng(1) %random seed
 trial_num = 10; %number of trials, in the paper we used 10
 num_train_per_class = 5;
 
-img=pca_HSI(recon,0.999);
+[M,N]=size(label_original);
+
+img=pca_HSI(recon,0.999); % PCA
+
 re_img=reshape(img,M,N,size(img,2));
+
+best_param=[];
 
 Nonzero_index = find(label_original ~= 0);
 
@@ -47,7 +57,6 @@ no_classes=length(unique(label_original))-1;
 overall_OA = []; overall_AA = []; overall_kappa = []; overall_CA = [];
 
 [no_rows,no_lines, no_bands] = size(re_img);
-% img=reshape(re_img,[no_rows*no_lines,no_bands]);
 prediction_map = zeros(M,N,trial_num);
 %% Select the number of training samples for each class
 
@@ -106,16 +115,12 @@ for trial_idx = 1: trial_num
     train_img(train_SL(1,:))=train_SL(2,:);
 
     %% Classification based on two feature image
-    in_param.other.turning = false; 
 
-    [class_label_svm, out_param, bestng] = classify_svm(re_img,train_img);
-    in_param.other.n = bestng(1,1); in_param.other.gamma = bestng(1,2);
-
-    [class_label, out_param] = classify_svm_prob(re_img,train_img,in_param);
+    in_param.n=(0.005:0.005:0.1); in_param.g=(0.005:0.005:0.1); % parameters in SVM
+    [class_label, out_param,best_ng] = classify_svm_prob(re_img,train_img,in_param);
+    best_param=[best_param;best_ng];
     predict_label_prob = reshape(out_param.prob_estimates, no_rows, no_lines, no_classes);
 
-    denoise_predict_tensor = zeros(no_rows, no_lines, no_bands);
-    predict_label_prob = reshape(out_param.prob_estimates, no_rows, no_lines, no_classes);
 
     train_map  = zeros(no_rows,no_lines);
     train_map(train_SL(1,:)) = 1;
@@ -136,11 +141,9 @@ for trial_idx = 1: trial_num
     class_label = reshape(class_label,[],1);
     %% Calculate the error based on predict label and truth label
     [OA,kappa,AA,CA] = calcError(test_SL(2,:)-1,class_label(test_SL(1,:))'-1,[1:no_classes]);
-
     overall_OA = [overall_OA;OA]; overall_AA= [overall_AA;AA]; overall_kappa = [overall_kappa;kappa]; overall_CA = [overall_CA, CA];
     prediction_map(:,:,trial_idx) = reshape(class_label,no_rows,no_lines);
 end
 fprintf('OA: %1.4f, AA: %1.4f, kappa: %1.4f', mean(overall_OA), mean(overall_AA), mean(overall_kappa))
 'Average accuracy of each class:'
 mean(overall_CA,2)
-
