@@ -8,15 +8,15 @@ prompt = 'Which dataset? \n 1) Indian Pines \n 2) Pavia University \n 3) Salinas
 DataSelected = input(prompt);
 
 if DataSelected == 1
-    load('Data\Indian_pines_corrected.mat')
-    load('Data\Indian_pines_gt.mat')
+    load('Data\IndianPines_data.mat')
+    load('Data\IndianPines_label.mat')
     im_3d = indian_pines_corrected;
-    im_gt = indian_pines_gt;
+    label_original = IndianPines_label;
 elseif DataSelected == 2
-    load('Data\PaviaU.mat')
-    load('Data\PaviaU_gt.mat')
+    load('Data\PaviaU_data.mat')
+    load('Data\PaviaU_label.mat')
     im_3d = paviaU;
-    im_gt = paviaU_gt;
+    label_original = paviaU_gt;
 elseif DataSelected == 3
     
 else
