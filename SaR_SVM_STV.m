@@ -4,9 +4,6 @@ clear all
 
 datasets = {'IndianPines_data','PaviaU_data'};
 
-% If you plan to use the SaR-SVM-STV algorithm:
-% You need to reconstruct 'IndianPinesCorrected'/'PaviaU' data using "SaR_main.m" 
-% and rename it as 'IndianPinesCorrectedSar.mat'/'PaviaUSar.mat'.
 
 % The datasets should be formatted as:
 % M,N,D : The number of rows, columns, and spectral bands in HSI.
