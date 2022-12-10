@@ -1,4 +1,6 @@
-function [outdata, out_param] = classify_svm_prob(varargin)
+function [outdata, out_param,bestng] = classify_svm_prob(varargin)
+
+
 %CLASSIFYSVM Classify with libSVM an image
 %
 %		[outdata, out_param] = classify_svm(img, train, opt)
@@ -65,7 +67,7 @@ if nargin == 2  %% if numbers of varibles are 2
     data_set = varargin{1};
     train = varargin{2};
     in_param = struct;
-%    in_param.kernel_type = 2;   % default RBF
+    %    in_param.kernel_type = 2;   % default RBF
 elseif nargin == 3  %% if numbers of varibles are 3
     data_set = varargin{1};
     train = varargin{2};
@@ -75,6 +77,7 @@ end
 % Default Parameters - Scaling the data
 scaling_range = true;       % Scale each feature of the data in the range [-1,1]
 scaling_std = true;         % Scale each feature of the data in order to have std=1
+
 
 % Read in_param
 if (isfield(in_param, 'scaling_range'))
@@ -88,127 +91,48 @@ if (isfield(in_param, 'scaling_std'))
 else
     in_param.scaling_std = scaling_std;
 end
-% ------------------------
+% % ------------------------
 
 [nrows ncols nfeats] = size(data_set); %% size of tensor
 for i = 1: nfeats
     temp_y = reshape(data_set(:,:,i),1,[]);
     mm = mean(temp_y, 2); %% mean value w.r.t row
     sdd = std(temp_y, 1, 2); %% Find the standard deviation in terms of rows; 1: divided by n
-    data_set(:,:,i) = (data_set(:,:,i) - mm) / (2*sdd);
+    data_set(:,:,i) = (data_set(:,:,i) - mm) / (sdd);
 end
 Ximg = double(reshape(data_set, nrows*ncols, nfeats)); %% size: nrows*ncols * nfeats
 
-% Transform training set in a format compliant to RF
+
 [X, L] = getPatterns(data_set, train);
 nclasses = length(unique(L));
 
-% % % % [X,row_factor] = removeconstantrows(X);   % Remove redundant features
-% % % % Ximg = Ximg(:,row_factor.keep); % Remove redundant features
-
-% ========= Preprocessing =========
-% Scale each feature of the data in the range [-1,1]
-% if (scaling_range)
-%     [X,scale_factor] = mapminmax(X);   % Perform the scaling on the training set
-%     nfold = 10;
-%     nelem = round(size(Ximg,1)/nfold);
-%     for i=1:nfold-1                     % Apply the same scaling on the whole set
-%         Ximg((i-1)*nelem+1:i*nelem,:) = (mapminmax('apply',Ximg((i-1)*nelem+1:i*nelem,:)',scale_factor))';
-%     end
-%     Ximg((nfold-1)*nelem+1:end,:) = (mapminmax('apply',Ximg((nfold-1)*nelem+1:end,:)',scale_factor))';
-% end
-% % Scale each feature in order to have std=1
-% if (scaling_std)
-%     [X,scale_factor] = mapstd(X);  % Perform the scaling on the training set
-%     nfold = 5;
-%     nelem = round(size(Ximg,1)/nfold);
-%     for i=1:nfold-1                 % Apply the same scaling on the whole set
-%         Ximg((i-1)*nelem+1:i*nelem,:) = (mapstd('apply',Ximg((i-1)*nelem+1:i*nelem,:)',scale_factor))';
-%     end
-%     Ximg((nfold-1)*nelem+1:end,:) = (mapstd('apply',Ximg((nfold-1)*nelem+1:end,:)',scale_factor))';
-% end
-
 tic
 % Train the model
-for i = 1: nfeats
-    temp_y = reshape(data_set(:,:,i),1,[]);
-    mm = mean(temp_y, 2);
-    sdd = std(temp_y, 1, 2);
-    data_set(:,:,i) = (data_set(:,:,i) - mm) / (2*sdd);
-end
-Ximg = double(reshape(data_set, nrows*ncols, nfeats));
-[X, L] = getPatterns(data_set, train);
-% % % model = svmtrain(mylabels,K1,'-t 4');
-% % % [predict_label,accuracy,decision_values] = svmpredict(myRealY,K2,model);
-if ~(in_param.other.turning)
-    cmd = ['-q -s 1 -t 2 -nu' ' ' num2str(in_param.other.n) ' ' '-g' ' ' num2str(in_param.other.gamma) ' ' '-b 1']; % '-b 1'
-    model= svmtrain(double(L)',double(X)',cmd);
-else
-    accur_old = 0;
-%     if (scaling_range)
-%         [X,scale_factor] = mapminmax(X);   % Perform the scaling on the training set
-%         nfold = 10;
-%         nelem = round(size(Ximg,1)/nfold);
-%         for i=1:nfold-1                     % Apply the same scaling on the whole set
-%             Ximg((i-1)*nelem+1:i*nelem,:) = (mapminmax('apply',Ximg((i-1)*nelem+1:i*nelem,:)',scale_factor))';
-%         end
-%         Ximg((nfold-1)*nelem+1:end,:) = (mapminmax('apply',Ximg((nfold-1)*nelem+1:end,:)',scale_factor))';
-%     end
-%     % Scale each feature in order to have std=1
-%     if (scaling_std)
-%         [X,scale_factor] = mapstd(X);  % Perform the scaling on the training set
-%         nfold = 5;
-%         nelem = round(size(Ximg,1)/nfold);
-%         for i=1:nfold-1                 % Apply the same scaling on the whole set
-%             Ximg((i-1)*nelem+1:i*nelem,:) = (mapstd('apply',Ximg((i-1)*nelem+1:i*nelem,:)',scale_factor))';
-%         end
-%         Ximg((nfold-1)*nelem+1:end,:) = (mapstd('apply',Ximg((nfold-1)*nelem+1:end,:)',scale_factor))';
-%     end
-    for in = in_param.other.niter
-        for ig = in_param.other.gammaiter
-            cmd = ['-q -s 1 -t 2 -nu' ' ' num2str(in) ' ' '-g' ' ' num2str(ig)];
-            accur = svmtrain(double(L)',double(X)',cmd);
-            if accur > accur_old 
-                opt_cmd = cmd(1:end-5);
-                accur_old = accur;
-            end
+
+accur_old = 0;
+
+for in = in_param.n
+    for ig = in_param.g
+        cmd = ['-q -s 1 -t 2 -nu' ' ' num2str(in) ' ' '-g' ' ' num2str(ig) ' ' '-v 5' ' ' '-b 1'];
+        accur = svmtrain(double(L)',double(X)',cmd);
+        if accur > accur_old
+            accur_old = accur;
+            bestin = in;
+            bestig = ig;
         end
+        fprintf('%g %g %g (best n=%g, g=%g, rate=%g)\n', in, ig, accur, bestin, bestig, accur_old);
     end
-    out_param.other.opt_cmd = opt_cmd;
-    model = svmtrain(double(L)',double(X)',opt_cmd);
 end
-% cmd = '-s 0 -t 2 -g 0.01 -c 10 -v 3';
-% cmd
-% [model, out_param] = epsSVM(double(X)', double(L)', in_param);
-% % % out_param.time_tr = toc;
-% % % out_param.nfeats = length(row_factor.keep);
+bestng = [];
+bestng = [bestin bestig];
 
-% Classify the whole data
-%Ximg = double(reshape(data_set, nrows*ncols, nfeats));
+opt_cmd = ['-q -s 1 -t 2 -n' ' ' num2str(bestin) ' ' '-g' ' ' num2str(bestig) ' ' '-b 1'];
+model = svmtrain(double(L)',double(X)',opt_cmd);
 
-% 
-% nfold = 5;
-% nelem = round(size(Ximg,1)/nfold);
-% 
-% for i=1:nfold-1
-%     Ximg((i-1)*nelem+1:i*nelem,:) = (mapminmax('apply',Ximg((i-1)*nelem+1:i*nelem,:)',scale_factor))';
-% end
-% Ximg((nfold-1)*nelem+1:end,:) = (mapminmax('apply',Ximg((nfold-1)*nelem+1:end,:)',scale_factor))';
+% predict
 
-%Ximg = Ximg*scale_factor;
-% cmd = generateLibSVMcmd(out_param, 'predict');      % this is needed when the training is done with -b enabled (probabilities estimated)
+[predicted_labels, out_param.accuracy, out_param.prob_estimates] = svmpredict(ones(nrows*ncols, 1), Ximg, model, '-b 1');
 
 
-% [predicted_labels, out_param.accuracy, out_param.prob_estimates] = svmpredict(ones(nrows*ncols, 1), Ximg, model, '-b 1');
-    [predicted_labels, out_param.accuracy, out_param.prob_estimates] = svmpredict(ones(nrows*ncols, 1), Ximg, model, '-b 1');
-
-% if isempty(cmd)
-%     [predicted_labels, out_param.accuracy] = svmpredict(ones(nrows*ncols, 1), Ximg, model);
-% else
-%     [predicted_labels, out_param.accuracy, out_param.prob_estimates] = svmpredict(ones(nrows*ncols, 1), Ximg, model, cmd);
-% end
-
-% reshape the array of labels to the original dimensions of the image
-% outdata = reshape(predicted_labels,nrows,ncols,1);
 outdata = predicted_labels;
 out_param.time_tot = toc;
