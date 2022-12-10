@@ -1,0 +1,10 @@
+function reduced_img=PCA_3d(img,num)
+% INPUT: img:         3d data
+%        num:         the number of principal component
+% OUPUT: reduced_img: 3d data
+[a,b,c]=size(img);
+img1=reshape(img,[a*b,c]);
+[coeff,score,latent,tsquared,explained] = pca(img1);
+
+img_pca = score(:,1:num);
+reduced_img=reshape(img_pca,a,b,num);
