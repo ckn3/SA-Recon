@@ -34,7 +34,7 @@ col_max = size(im_gt,2);
 im_gt_1d = reshape(im_gt,1,row_max*col_max);
 ind_map = reshape(1:length(im_gt_1d),[row_max,col_max]);
 
-[pca1, PAR] = PCA_img(im_3d,1);
+pca1 = PCA_3d(im_3d,1);
 
 index = ind_map(:);
 
