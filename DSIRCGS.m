@@ -13,7 +13,7 @@ prcts{2} =  41:(100-41)/19:100;
 numReplicates = 10;
 
 %% Grid searches
-datasets = {'IndianPinesCorrected','IndianPinesCorrectedSar'};
+datasets = {'IndianPinesCorrected','IndianPinesCorrectedSar','SalinasACorrected','SalinasACorrectedSar','SalinasCorrected','SalinasCorrectedSar'};
 
 % You need to reconstruct 'IndianPinesCorrected' data using "SaR_main.m" and 
 % rename it as 'IndianPinesCorrectedSar.mat' before setting dataIdx =  2.
@@ -25,17 +25,15 @@ datasets = {'IndianPinesCorrected','IndianPinesCorrectedSar'};
 % GT    : Ground Truth labels.
 
 
-for dataIdx =  2
+for dataIdx =  [2,4,6]
     prctiles = prcts{dataIdx};
-    if dataIdx > 1
-        % Load the original dataset for calculating \zeta(x)
-        load(datasets{1},'X')
-        X = X./vecnorm(X,2,2);
-        X1 = X;
-        [Idx_NN1, Dist_NN1] = knnsearch(X, X, 'K', 1000);
-        Dist_NN1 = Dist_NN1(:,2:902);
-        Idx_NN1 = Idx_NN1(:,2:902);
-    end
+    % Load the original dataset for calculating \zeta(x)
+    load(datasets{dataIdx-1},'X')
+    X = X./vecnorm(X,2,2);
+    X1 = X;
+    [Idx_NN1, Dist_NN1] = knnsearch(X, X, 'K', 1000);
+    Dist_NN1 = Dist_NN1(:,2:902);
+    Idx_NN1 = Idx_NN1(:,2:902);
 
     % ===================== Load and Preprocess Data ======================
     
