@@ -73,7 +73,7 @@ for dataIdx =  [2,4,6]
     K = length(unique(Y));
     Hyperparameters.K_Known = K;
     
-    if dataIdx == 1
+    if mode(dataIdx,2)==1
         X1 = X;
         Dist_NN1 = Dist_NN;
     end
@@ -94,11 +94,7 @@ for dataIdx =  [2,4,6]
                 Hyperparameters.DiffusionNN = NNs(i);
                 Hyperparameters.DensityNN = NNs(i); % must be ≤ 1000
                 Hyperparameters.Sigma0 = prctile(Dist_NN1(Dist_NN1>0), prctiles(j), 'all');
-                if dataIdx >=12
-                    Hyperparameters.EndmemberParams.K = K; % compute hysime to get best estimate for number of endmembers
-                else
-                    Hyperparameters.EndmemberParams.K = hysime(X1'); % compute hysime to get best estimate for number of endmembers
-                end
+                Hyperparameters.EndmemberParams.K = hysime(X1'); % compute hysime to get best estimate for number of endmembers
                 Hyperparameters.EndmemberParams.Algorithm = 'ManyAVMAX';
                 Hyperparameters.EndmemberParams.NumReplicates = 100;
 
@@ -126,7 +122,7 @@ for dataIdx =  [2,4,6]
         [maxOA, k] = max(reshape(nanmean(OAs,3),n1*n2,1));
         [l,j] = ind2sub(size(mean(OAs,3)), k);
         stdOA = nanstd(squeeze(OAs(l,j,:)));
-        save(strcat(datasets{dataIdx}, 'DSIRC'),  'OAs', 'kappas', 'Cs', 'NNs', 'prctiles', 'numReplicates', 'maxOA', 'stdOA')
+        save(strcat(datasets{dataIdx-1}, 'DSIRC'),  'OAs', 'kappas', 'Cs', 'NNs', 'prctiles', 'numReplicates', 'maxOA', 'stdOA')
         
     end
 
